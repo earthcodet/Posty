@@ -27,6 +27,7 @@ public class MainPosty  extends JFrame{
     private JLabel about;
     private JPanel mainPanel;
     private JLabel Nofound;
+    private JPanel Process;
     static int countroom=0;
     static Thread thread = new Thread();
     static ArrayList<String> tempID = new ArrayList<String>() ;
@@ -132,7 +133,7 @@ public class MainPosty  extends JFrame{
         btnroom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Process.setVisible(true);
                 if(countroom==0){
                     room.setVisible(true);
                     countroom++;
@@ -140,7 +141,7 @@ public class MainPosty  extends JFrame{
                     room.setVisible(false);
                     countroom--;
                 }
-
+                Process.setVisible(false);
             }
         });
 
@@ -148,8 +149,9 @@ public class MainPosty  extends JFrame{
         tfSe.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode()==KeyEvent.VK_ENTER){
 
+                if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                    Process.setVisible(true);
                     table.setVisible(true);
                     Nofound.setVisible(false);
                     int r = 0;
@@ -192,14 +194,14 @@ public class MainPosty  extends JFrame{
                             }
                         }
                         table.setModel(model);
-                        System.out.println(tfSe.getText());
-                        System.out.println(r);
+                      
                         cursor.close();
                         client.close();
 
                     }catch (Exception exp){
                         System.out.println(exp);
                     }
+                    Process.setVisible(false);
                     if(r==0){
                         table.setVisible(false);
                         Nofound.setVisible(true);
@@ -222,6 +224,7 @@ public class MainPosty  extends JFrame{
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
                 try {
@@ -270,23 +273,25 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
+                Process.setVisible(false);
             }
         });
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = table.getSelectedRow();
-                if(row!=0)
-                status.setText("./Posty/post/"+tempID.get(row-1));
+                try {
+                    int row = table.getSelectedRow();
+                    if (row != 0)
+                        status.setText("./Posty/post/" + tempID.get(row - 1));
+                }catch(Exception exp){
+
+                }
             }
         });
-        table.addMouseListener(new MouseAdapter() {
-
-        });
-
         about.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                Process.setVisible(true);
                try {
                    about about = new about();
                    Toolkit kit = Toolkit.getDefaultToolkit();
@@ -297,12 +302,13 @@ public class MainPosty  extends JFrame{
                }catch (Exception exp){
 
                }
+                Process.setVisible(false);
             }
         });
         Lb1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
                 try {
@@ -349,14 +355,14 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
-
+                Process.setVisible(false);
 
             }
         });
         Lb2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
                 try {
@@ -403,11 +409,13 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
+                Process.setVisible(false);
             }
         });
         Lb3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
 
@@ -455,12 +463,13 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
+                Process.setVisible(false);
             }
         });
         Lb4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
                 try {
@@ -507,11 +516,13 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
+                Process.setVisible(false);
             }
         });
         Lb5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                Process.setVisible(true);
                 table.setVisible(true);
                 Nofound.setVisible(false);
 
@@ -559,6 +570,16 @@ public class MainPosty  extends JFrame{
                 }catch (Exception exp){
                     System.out.println(exp);
                 }
+
+                Process.setVisible(false);
+            }
+        });
+        postsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String massage = "กรุณาสมัครสมาชิก";
+
+                JOptionPane.showMessageDialog(null,massage,"กรุณาสมัครสมาชิก",JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
