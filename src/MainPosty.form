@@ -17,7 +17,7 @@
       <title-color color="-4473925"/>
     </border>
     <children>
-      <grid id="63a0d" layout-manager="GridLayoutManager" row-count="1" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="63a0d" layout-manager="GridLayoutManager" row-count="1" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
@@ -25,6 +25,7 @@
         <properties>
           <background color="-12436389"/>
           <enabled value="false"/>
+          <font name="Angsana New" size="20"/>
         </properties>
         <border type="none"/>
         <children>
@@ -36,20 +37,20 @@
               <background color="-6723943"/>
               <borderPainted value="true"/>
               <enabled value="true"/>
-              <font style="1"/>
+              <font name="Angsana New" size="24"/>
               <foreground color="-328966"/>
               <text value=" Posts"/>
             </properties>
           </component>
           <component id="67dd8" class="javax.swing.JButton" binding="loginRegisterButton" default-binding="true">
             <constraints>
-              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-6723943"/>
               <borderPainted value="true"/>
               <enabled value="true"/>
-              <font style="1"/>
+              <font name="Angsana New" size="24"/>
               <foreground color="-1508609"/>
               <text value="Login/Register"/>
             </properties>
@@ -62,7 +63,7 @@
             </constraints>
             <properties>
               <enabled value="true"/>
-              <font name="Angsana New" size="22"/>
+              <font name="Angsana New" size="24"/>
               <foreground color="-66305"/>
               <text value=" Posty"/>
             </properties>
@@ -75,7 +76,7 @@
               <background color="-6723943"/>
               <borderPainted value="true"/>
               <enabled value="true"/>
-              <font style="1"/>
+              <font name="Angsana New" size="24"/>
               <foreground color="-66305"/>
               <hideActionText value="false"/>
               <horizontalAlignment value="0"/>
@@ -91,7 +92,7 @@
               <background color="-6723943"/>
               <borderPainted value="true"/>
               <enabled value="true"/>
-              <font style="1"/>
+              <font name="Angsana New" size="24"/>
               <foreground color="-328966"/>
               <text value="Room"/>
             </properties>
@@ -114,7 +115,8 @@
                 </constraints>
                 <properties>
                   <background color="-1"/>
-                  <text value="Search"/>
+                  <font name="Angsana New" size="20" style="2"/>
+                  <text value=""/>
                   <toolTipText value=""/>
                 </properties>
               </component>
@@ -125,6 +127,16 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
+          <component id="a9e4f" class="javax.swing.JLabel" binding="about">
+            <constraints>
+              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Angsana New" size="18"/>
+              <foreground color="-66305"/>
+              <text value=""/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="76b44" binding="panelroom" layout-manager="GridLayoutManager" row-count="2" column-count="17" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

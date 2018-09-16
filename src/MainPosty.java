@@ -1,20 +1,15 @@
 import com.mongodb.*;
-
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Timer;
-
-public class MainPosty {
+public class MainPosty  extends JFrame{
         private JButton postsButton;
         private JButton homeButton;
         private JButton loginRegisterButton;
-        private JPanel mainPanel;
-        private JLabel imagelogo;
+    private JLabel imagelogo;
     private JLabel Lb1;
     private JLabel Lb2;
     private JLabel Lb3;
@@ -29,6 +24,8 @@ public class MainPosty {
     private JLabel lprocess;
     private JProgressBar progressBar;
     private JLabel status;
+    private JLabel about;
+    private JPanel mainPanel;
     static int countroom=0;
     static Thread thread = new Thread();
     static ArrayList<String> tempID = new ArrayList<String>() ;
@@ -39,6 +36,14 @@ public class MainPosty {
         return new ImageIcon(resizedImage);
     }
     public  MainPosty(){
+        add(mainPanel);
+        setSize(1000,800);
+        tfSe.setText("ค้นหา");
+        about.setText("เกี่ยวกับ");
+        loginRegisterButton.setText("สมัครสมาชิก/เข้าสู่ระบบ");
+        postsButton.setText("ตั้งกระทู้");
+        btnroom.setText("ห้อง");
+        homeButton.setText("หน้าหลัก");
         ImageIcon icon = new ImageIcon("./image/logo.png");
         imagelogo.setBounds(200,200,40,40);
         int offset = imagelogo.getInsets().left;
@@ -228,7 +233,16 @@ public class MainPosty {
             }
         });
         table.addMouseListener(new MouseAdapter() {
-           
+
+        });
+
+        about.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+             about about = new about();
+             about.setVisible(true);
+
+            }
         });
     }
     public static void removeArray(){
@@ -240,18 +254,6 @@ while(!tempID.isEmpty()){
 
 
 
-    public static void main(String[] args)  {
-        JFrame frame = new JFrame("Posty - Home");
-        MainPosty form = new MainPosty();
-        frame.setContentPane(form.mainPanel);
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Image icon = kit.createImage("./image/logo.png");
-        frame.setIconImage(icon);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(1000,800));
-        frame.setVisible(true);
-    }
 
 
 }
