@@ -26,6 +26,7 @@ public class MainPosty  extends JFrame{
     private JLabel status;
     private JLabel about;
     private JPanel mainPanel;
+    private JLabel Nofound;
     static int countroom=0;
     static Thread thread = new Thread();
     static ArrayList<String> tempID = new ArrayList<String>() ;
@@ -127,12 +128,7 @@ public class MainPosty  extends JFrame{
 
 
 
-        homeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
         btnroom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,8 +150,64 @@ public class MainPosty  extends JFrame{
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_ENTER){
 
-                    tfSe.setText("");
+                    table.setVisible(true);
+                    Nofound.setVisible(false);
+                    int r = 0;
+                    try {
+                        MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                        MongoClient client = new MongoClient(uri);
+                        DB db = client.getDB("posty");
+                        try {
+                            db.getCollection("post");
+                        } catch (Exception exp) {
+                            db.createCollection("username", null);
+                        }
+                        DBCollection collection = db.getCollection("post");
 
+                        //
+
+                        DBCursor cursor = null;
+                        cursor = collection.find(new BasicDBObject("topic",tfSe.getText()));
+                        String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                        model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                        int run = 1 ;
+                        while(cursor.hasNext()) {
+                            r++;
+                            try{
+                                DBObject obj = cursor.next();
+                                Object id = obj.get("_id");
+                                tempID.add(id+"");
+                                System.out.println("Pass");
+                                String topic = (String)obj.get("topic");
+                                String name = (String)obj.get("roomowner");
+                                int topview = (int)obj.get("topview");
+                                int countcomment = (int)obj.get("countcomment");
+                                model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                                run++;
+                                //Pubg สนุกไหมครับ
+                            }
+                            catch(Exception exp){
+                                System.out.println("E "+exp);
+                            }
+                        }
+                        table.setModel(model);
+                        System.out.println(tfSe.getText());
+                        System.out.println(r);
+                        cursor.close();
+                        client.close();
+
+                    }catch (Exception exp){
+                        System.out.println(exp);
+                    }
+                    if(r==0){
+                        table.setVisible(false);
+                        Nofound.setVisible(true);
+                        ImageIcon icon = new ImageIcon("./image/nosearch.png");
+                        Nofound.setBounds(200,200,300,200);
+                        Nofound.setIcon(icon);
+
+                    }
                 }
             }
         });
@@ -166,16 +218,12 @@ public class MainPosty  extends JFrame{
                 tfSe.setText("");
             }
         });
+
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        homeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
+                table.setVisible(true);
+                Nofound.setVisible(false);
                 try {
 
                     MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
@@ -239,16 +287,285 @@ public class MainPosty  extends JFrame{
         about.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-             about about = new about();
-             about.setVisible(true);
+               try {
+                   about about = new about();
+                   Toolkit kit = Toolkit.getDefaultToolkit();
+                   Image icon = kit.createImage("./image/logo.png");
+                   about.setTitle("Posty - About");
+                   about.setIconImage(icon);
+                   about.setVisible(true);
+               }catch (Exception exp){
 
+               }
+            }
+        });
+        Lb1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                table.setVisible(true);
+                Nofound.setVisible(false);
+                try {
+
+                    MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                    MongoClient client = new MongoClient(uri);
+                    DB db = client.getDB("posty");
+                    try {
+                        db.getCollection("post");
+                    } catch (Exception exp) {
+                        db.createCollection("username", null);
+                    }
+                    DBCollection collection = db.getCollection("post");
+                    DBCursor cursor = null;
+                    cursor = collection.find(new BasicDBObject("typeroom","Love"));
+                    String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                    model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                    removeArray();
+                    int run =1;
+                    while(cursor.hasNext()) {
+                        try{
+                            DBObject obj = cursor.next();
+                            Object id = obj.get("_id");
+                            tempID.add(id+"");
+                            String topic = (String)obj.get("topic");
+                            String name = (String)obj.get("roomowner");
+                            int topview = (int)obj.get("topview");
+                            int countcomment = (int)obj.get("countcomment");
+                            model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                            run ++;
+                        }
+                        catch(Exception exp){
+                            System.out.println("E "+exp);
+                        }
+                    }
+                    table.setModel(model);
+                    cursor.close();
+
+                    client.close();
+
+
+
+                }catch (Exception exp){
+                    System.out.println(exp);
+                }
+
+
+            }
+        });
+        Lb2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                table.setVisible(true);
+                Nofound.setVisible(false);
+                try {
+
+                    MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                    MongoClient client = new MongoClient(uri);
+                    DB db = client.getDB("posty");
+                    try {
+                        db.getCollection("post");
+                    } catch (Exception exp) {
+                        db.createCollection("username", null);
+                    }
+                    DBCollection collection = db.getCollection("post");
+                    DBCursor cursor = null;
+                    cursor = collection.find(new BasicDBObject("typeroom","Game"));
+                    String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                    model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                    removeArray();
+                    int run =1;
+                    while(cursor.hasNext()) {
+                        try{
+                            DBObject obj = cursor.next();
+                            Object id = obj.get("_id");
+                            tempID.add(id+"");
+                            String topic = (String)obj.get("topic");
+                            String name = (String)obj.get("roomowner");
+                            int topview = (int)obj.get("topview");
+                            int countcomment = (int)obj.get("countcomment");
+                            model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                            run ++;
+                        }
+                        catch(Exception exp){
+                            System.out.println("E "+exp);
+                        }
+                    }
+                    table.setModel(model);
+                    cursor.close();
+
+                    client.close();
+
+
+
+                }catch (Exception exp){
+                    System.out.println(exp);
+                }
+            }
+        });
+        Lb3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                table.setVisible(true);
+                Nofound.setVisible(false);
+
+                try {
+
+                    MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                    MongoClient client = new MongoClient(uri);
+                    DB db = client.getDB("posty");
+                    try {
+                        db.getCollection("post");
+                    } catch (Exception exp) {
+                        db.createCollection("username", null);
+                    }
+                    DBCollection collection = db.getCollection("post");
+                    DBCursor cursor = null;
+                    cursor = collection.find(new BasicDBObject("typeroom","Food"));
+                    String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                    model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                    removeArray();
+                    int run =1;
+                    while(cursor.hasNext()) {
+                        try{
+                            DBObject obj = cursor.next();
+                            Object id = obj.get("_id");
+                            tempID.add(id+"");
+                            String topic = (String)obj.get("topic");
+                            String name = (String)obj.get("roomowner");
+                            int topview = (int)obj.get("topview");
+                            int countcomment = (int)obj.get("countcomment");
+                            model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                            run ++;
+                        }
+                        catch(Exception exp){
+                            System.out.println("E "+exp);
+                        }
+                    }
+                    table.setModel(model);
+                    cursor.close();
+
+                    client.close();
+
+
+
+                }catch (Exception exp){
+                    System.out.println(exp);
+                }
+            }
+        });
+        Lb4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                table.setVisible(true);
+                Nofound.setVisible(false);
+                try {
+
+                    MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                    MongoClient client = new MongoClient(uri);
+                    DB db = client.getDB("posty");
+                    try {
+                        db.getCollection("post");
+                    } catch (Exception exp) {
+                        db.createCollection("username", null);
+                    }
+                    DBCollection collection = db.getCollection("post");
+                    DBCursor cursor = null;
+                    cursor = collection.find(new BasicDBObject("typeroom","Animal"));
+                    String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                    model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                    removeArray();
+                    int run =1;
+                    while(cursor.hasNext()) {
+                        try{
+                            DBObject obj = cursor.next();
+                            Object id = obj.get("_id");
+                            tempID.add(id+"");
+                            String topic = (String)obj.get("topic");
+                            String name = (String)obj.get("roomowner");
+                            int topview = (int)obj.get("topview");
+                            int countcomment = (int)obj.get("countcomment");
+                            model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                            run ++;
+                        }
+                        catch(Exception exp){
+                            System.out.println("E "+exp);
+                        }
+                    }
+                    table.setModel(model);
+                    cursor.close();
+
+                    client.close();
+
+
+
+                }catch (Exception exp){
+                    System.out.println(exp);
+                }
+            }
+        });
+        Lb5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                table.setVisible(true);
+                Nofound.setVisible(false);
+
+                try {
+
+                    MongoClientURI uri = new MongoClientURI("mongodb://admin:admin1234@ds046677.mlab.com:46677/posty");
+                    MongoClient client = new MongoClient(uri);
+                    DB db = client.getDB("posty");
+                    try {
+                        db.getCollection("post");
+                    } catch (Exception exp) {
+                        db.createCollection("username", null);
+                    }
+                    DBCollection collection = db.getCollection("post");
+                    DBCursor cursor = null;
+                    cursor = collection.find(new BasicDBObject("typeroom","Catoon"));
+                    String[] columnNames = {"ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"};
+                    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+                    model.addRow(new Object[] { "ห้องที่","ชื่อเรื่อง","ห้องของ", "จำนวนคอมเม้น","จำนวนยอดวิว"});
+                    removeArray();
+                    int run =1;
+                    while(cursor.hasNext()) {
+                        try{
+                            DBObject obj = cursor.next();
+                            Object id = obj.get("_id");
+                            tempID.add(id+"");
+                            String topic = (String)obj.get("topic");
+                            String name = (String)obj.get("roomowner");
+                            int topview = (int)obj.get("topview");
+                            int countcomment = (int)obj.get("countcomment");
+                            model.addRow(new Object[] { run,topic,name,topview,countcomment});
+                            run ++;
+                        }
+                        catch(Exception exp){
+                            System.out.println("E "+exp);
+                        }
+                    }
+                    table.setModel(model);
+                    cursor.close();
+
+                    client.close();
+
+
+
+                }catch (Exception exp){
+                    System.out.println(exp);
+                }
             }
         });
     }
     public static void removeArray(){
-while(!tempID.isEmpty()){
-    tempID.remove(0);
-}
+
+    tempID.clear();
+
 
     }
 
